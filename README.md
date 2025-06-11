@@ -1,9 +1,9 @@
-#GGpoker-MTT-Luck
+# GGpoker-MTT-Luck
 
 홀덤을 치다가, 올인 배드빗!을 맞는 것에 지치셨나요? 당신의 이번 주 MTT 올인 운을 측정해 봅시다.
 
 
-[How to Use it?]
+## How to Use it?
 1. My accounts > Poker Craft > My Tournaments 에 들어갑니다.
 2. Date range를 설정하고 \(일주일이 최대\)
 3. 왼쪽에 모든 체크박스를 한번에 체크한 이후에
