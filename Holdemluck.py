@@ -211,6 +211,9 @@ def process_all_txt_in_folder(folder_path):
     print(f"Total Luck: {results[0]:.2f}$, Total Buy-in: {results[1]:.2f}$")
 
 
-if __name__ == "__main__":
-    folder_path = "C:/Users/bonma/OneDrive/바탕 화면/HandHistories" # 폴더 경로를 여기에 입력하세요
+def main(folder_path):
     process_all_txt_in_folder(folder_path)
+
+if __name__ == "__main__":
+    folder_path = "C:/Users/bonma/OneDrive/바탕 화면/HandHistories"
+    main(folder_path)
