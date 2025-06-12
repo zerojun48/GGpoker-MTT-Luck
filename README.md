@@ -10,4 +10,4 @@
 4. 빨간 버튼을 사용해서 다운로드 합니다.
 ![pokercrafts](https://github.com/user-attachments/assets/0678d663-fe98-452b-ad42-ece8af71b0e5)
 
-5. 압축을 푼 후에, 파일 __main__의 폴더 경로에 붙여넣기.
+5. 압축을 푼 후에, dist의 exe파일 다운로드하여 폴더 넣기.
