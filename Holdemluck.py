@@ -99,13 +99,17 @@ def extract_hero_final_stacks(hands):
 
 
 def Adjs(buy_in, stack):
-    return buy_in * pow(abs(stack), 0.75)
+    return 1.35 * buy_in * pow(abs(stack), 0.75)
 
 
 def filter_hands_and_compute_equity(hands_text):
     hands = hands_text.strip().split("\n\n")
     final_stacks_list = extract_hero_final_stacks(hands)
-    MTT_start_stacks = final_stacks_list[-1]
+    # ✅ 멀티데이(최종일/Day2+) 감지 → Day1 스타팅 스택(10,000) 강제
+    # 예: [Final Day], [Day 2], [Day 3], ...
+    is_multi_day_later = bool(re.search(r'\[(?:Final Day|Day\s*[2-9]\w*)\]', hands_text, re.IGNORECASE))
+    MTT_start_stacks = 10000 if is_multi_day_later else final_stacks_list[-1]
+    
     results = []
 
     for hand in hands:
@@ -139,11 +143,16 @@ def filter_hands_and_compute_equity(hands_text):
         m_hero_cards = re.search(r"Dealt to Hero \[([^\]]+)\]", hand)
         hero_cards_str = m_hero_cards.group(1).split() if m_hero_cards else []
 
-        m_buy_in = re.search(r"\$([\d]+(?:\.\d+)?)\b", hand)
-        buy_in = float(m_buy_in.group(1)) if m_buy_in else None
+        m_buy_in = re.search(r"\$([\d,]+(?:\.\d+)?)\b", hand)
+        buy_in = float(m_buy_in.group(1).replace(",", "")) if m_buy_in else None
+
         if buy_in is None:
-            m_buy_in = re.search(r"\¥([\d]+(?:\.\d+)?)\b", hand)
-            buy_in = float(m_buy_in.group(1)) * 0.14
+            m_buy_in = re.search(r"[¥\\¥]([\d,]+(?:\.\d+)?)\b", hand)
+            buy_in = float(m_buy_in.group(1).replace(",", "")) * 0.14 if m_buy_in else None
+
+        # The Weekender 토너먼트 예외 처리
+        if buy_in is None and re.search(r"\bThe Weekender\b", hand, re.IGNORECASE):
+            buy_in = 50.0
 
         opp_cards_str = []
         for m in re.finditer(r"Seat \d+: (?!Hero)(?:.+?) showed \[([^\]]+)\]", hand):
